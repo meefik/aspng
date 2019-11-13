@@ -1,0 +1,23 @@
+{
+  "name": "asPNG",
+  "version": "1.0.0",
+  "description": "A library for encoding data in PNG with compression",
+  "author": "Anton Skshidlevsky <meefik@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server --port=3000 --host=localhost",
+    "lint": "eslint src/**/*.js --fix",
+    "build": "webpack --mode=production --progress"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.6",
+    "eslint": "^6.1.0",
+    "terser-webpack-plugin": "^1.4.1",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.9.0"
+  }
+}

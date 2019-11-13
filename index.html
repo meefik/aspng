@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>asPNG Demo</title>
+    <script type="text/javascript" src="aspng.js"></script>
+    <style></style>
+  </head>
+
+  <body>
+    <h1>asPNG Demo</h1>
+    <p>
+      <pre id="log">Info</pre>
+    </p>
+    <p>
+      <label>Encode</label>
+      <br />
+      <input id="input" type="file" />
+    </p>
+    <p>
+      <label>Decode</label>
+      <br />
+      <input id="output" type="file" />
+    </p>
+    <p>
+      <label>Preview</label>
+      <br />
+      <img id="img"  />
+    </p>
+    <script>
+      var input = document.getElementById('input');
+      input.onchange = function(e) {
+        var file = e.target.files[0];
+        var t = Date.now();
+        asPNG.encode(file).then(blob => {
+          document.getElementById('log').innerText =
+            `time: ${Date.now() - t} ms, original: ${
+              file.size
+            } b, compressed: ${blob.size} b, ratio: ${~~(
+              (blob.size / file.size) *
+              100
+            )} %`;
+          const img = document.getElementById('img');
+          img.src = URL.createObjectURL(blob);
+        });
+      };
+
+      var output = document.getElementById('output');
+      output.onchange = function(e) {
+        var file = e.target.files[0];
+        const img = document.getElementById('img');
+        img.src = URL.createObjectURL(file);
+        var t = Date.now();
+        asPNG.decode(file).then(blob => {
+          document.getElementById('log').innerText =
+            `time: ${Date.now() - t} ms, original: ${
+              blob.size
+            } b, compressed: ${file.size} b, ratio: ${~~(
+              (file.size / blob.size) *
+              100
+            )} %`;
+          window.open(URL.createObjectURL(blob));
+        });
+      };
+    </script>
+  </body>
+</html>
