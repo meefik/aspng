@@ -6,60 +6,92 @@
   </head>
 
   <body>
-    <h1>asPNG Demo</h1>
     <p>
-      <pre id="log">Info</pre>
+      <h2>Log</h2>
+      <pre id="log">...</pre>
     </p>
+    <hr/>
     <p>
-      <label>Encode</label>
+      <h2>Encode</h2>
+      <label>Data</label>
       <br />
-      <input id="input" type="file" />
-    </p>
-    <p>
-      <label>Decode</label>
+      <input id="encode_data" type="file" onchange="encode(event)" />
       <br />
-      <input id="output" type="file" />
-    </p>
-    <p>
       <label>Preview</label>
       <br />
-      <img id="img"  />
+      <img id="encoded_out" alt="Image" />
+    </p>
+    <p>
+      <h2>Decode</h2>
+      <label>Image</label>
+      <br />
+      <input id="decode" type="file" onchange="decode(event)" />
+    </p>
+    <hr/>
+    <p>
+      <h2>Inject</h2>
+      <label>Data</label>
+      <br />
+      <input id="inject_data" type="file" />
+      <br />
+      <label>Image</label>
+      <br />
+      <input id="inject_img" type="file" onchange="inject(event)" />
+      <br />
+      <label>Preview</label>
+      <br />
+      <img id="injected_out" alt="Image" />
+    </p>
+    <p>
+      <h2>Extract</h2>
+      <label>Image</label>
+      <br />
+      <input id="extract" type="file" onchange="extract(event)" />
     </p>
     <script>
-      var input = document.getElementById('input');
-      input.onchange = function(e) {
+      function encode(e) {
         var file = e.target.files[0];
         var t = Date.now();
         asPNG.encode(file).then(blob => {
-          document.getElementById('log').innerText =
-            `time: ${Date.now() - t} ms, original: ${
-              file.size
-            } b, compressed: ${blob.size} b, ratio: ${~~(
-              (blob.size / file.size) *
-              100
-            )} %`;
-          const img = document.getElementById('img');
+          log(Date.now() - t, file.size, blob.size);
+          const img = document.getElementById('encoded_out');
           img.src = URL.createObjectURL(blob);
         });
-      };
+      }
 
-      var output = document.getElementById('output');
-      output.onchange = function(e) {
+      function decode(e) {
         var file = e.target.files[0];
-        const img = document.getElementById('img');
-        img.src = URL.createObjectURL(file);
         var t = Date.now();
         asPNG.decode(file).then(blob => {
-          document.getElementById('log').innerText =
-            `time: ${Date.now() - t} ms, original: ${
-              blob.size
-            } b, compressed: ${file.size} b, ratio: ${~~(
-              (file.size / blob.size) *
-              100
-            )} %`;
+          log(Date.now() - t, file.size, blob.size);
           window.open(URL.createObjectURL(blob));
         });
-      };
+      }
+
+      function inject(e) {
+        var data = document.getElementById('inject_data').files[0];
+        var file = e.target.files[0];
+        var t = Date.now();
+        asPNG.inject(data, file).then(blob => {
+          log(Date.now() - t, file.size, blob.size);
+          const img = document.getElementById('injected_out');
+          img.src = URL.createObjectURL(blob);
+        });
+      }
+
+      function extract(e) {
+        var file = e.target.files[0];
+        var t = Date.now();
+        asPNG.extract(file).then(blob => {
+          log(Date.now() - t, file.size, blob.size);
+          window.open(URL.createObjectURL(blob));
+        });
+      }
+
+      function log(time, isize, osize) {
+        document.getElementById('log').innerText =
+          `time: ${time} ms, input: ${isize} b, output: ${osize} b, ratio: ${~~((osize / isize) * 100)} %`;
+      }
     </script>
   </body>
 </html>

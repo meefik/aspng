@@ -7,13 +7,21 @@ A library for encoding data in PNG with compression.
 An example of using the basic functions of the library:
 
 ```js
-// encode file
+// encode file to PNG
 asPNG.encode(file).then(blob => {
   // encoded blob
 });
-// decode file
+// decode file from PNG
 asPNG.decode(file).then(blob => {
   // decoded blob
+});
+// inject data to PNG image
+asPNG.inject(data, img).then(blob => {
+  // modified image
+});
+// extract data from PNG image
+asPNG.extract(img).then(blob => {
+  // extracted data
 });
 ```
 
