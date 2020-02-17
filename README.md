@@ -1,6 +1,7 @@
-# asPNG.js
+# asPNG
 
-A library for encoding data in PNG with compression.
+A JS library for encoding data as PNG with compression or injecting data into
+an existing PNG image.
 
 ### How to use
 

@@ -27,59 +27,42 @@ export function imageToData(img = []) {
   return data;
 }
 
-export function injectData(img = [], data = [], start = 0, basis = 7) {
-  const size = data.length;
-  for (let i = start, l = start + size; i < l; i++) {
-    const step = i * 4;
-    let value = data[i - start] || 0;
+export function injectData(img = [], data = [], basis = 7) {
+  const il = img.length / 4;
+  const dl = data.length;
+  const max = Math.pow(basis, 3) - 1;
+  const step = (il / dl) | 0;
+  for (let i = 0, k = 0; i < il; i++) {
+    const p = i * 4;
+    let v = max;
+    if (k < dl && i % step === 0) {
+      v = data[k++] || 0;
+    }
     for (let j = 0; j < 3; j++) {
-      let x = img[step + j];
-      let r = ~~(x / basis) * basis;
+      const x = img[p + j];
+      let r = ((x / basis) | 0) * basis;
       if (r + basis > 255) r -= basis;
-      img[step + j] = r + (value % basis);
-      value = ~~(value / basis);
+      img[p + j] = (v % basis) + r;
+      v = (v / basis) | 0;
     }
   }
   return img;
 }
 
-export function extractData(img, start = 0, end = img.length / 4, basis = 7) {
-  const data = new Uint8Array(end - start);
-  for (let i = start; i < end; i++) {
-    const step = i * 4;
-    let value = 0;
+export function extractData(img, basis = 7) {
+  const il = img.length / 4;
+  const data = [];
+  const max = Math.pow(basis, 3) - 1;
+  for (let i = 0, k = 0; i < il; i++) {
+    const p = i * 4;
+    let v = 0;
     for (let j = 0; j < 3; j++) {
-      let x = img[step + j];
-      let r = ~~(x / basis) * basis;
+      const x = img[p + j];
+      let r = ((x / basis) | 0) * basis;
       if (r + basis > 255) r -= basis;
-      const n = x - r;
-      value += n * Math.pow(basis, j);
+      v += (x - r) * Math.pow(basis, j);
     }
-    data[i - start] = value;
+    if (v < max) data[k++] = v;
   }
-  return data;
-}
-
-export function intToBytes(num) {
-  return new Uint8Array([
-    (num & 0xff000000) >> 24,
-    (num & 0x00ff0000) >> 16,
-    (num & 0x0000ff00) >> 8,
-    num & 0x000000ff
-  ]);
-}
-
-export function bytesToInt(arr, i = 0) {
-  return arr[i] * 16777216 + arr[i + 1] * 65536 + arr[i + 2] * 256 + arr[i + 3];
-}
-
-export function hashCode(data = [], start = 0, end = data.length) {
-  let hash = 0;
-  if (data.length == 0) return hash;
-  for (let i = start; i < end; i++) {
-    const char = data[i] || 0;
-    hash = (hash << 5) - hash + char;
-    hash |= hash;
-  }
-  return hash < 0 ? hash * -2 : hash;
+  return new Uint8Array(data);
 }

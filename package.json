@@ -1,7 +1,7 @@
 {
   "name": "asPNG",
-  "version": "1.1.0",
-  "description": "A library for encoding data in PNG with compression",
+  "version": "1.2.0",
+  "description": "A JS library for encoding data as PNG with compression or injecting data into an existing PNG image.",
   "author": "Anton Skshidlevsky <meefik@gmail.com>",
   "license": "MIT",
   "scripts": {
