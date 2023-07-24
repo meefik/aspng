@@ -1,18 +1,30 @@
 {
   "env": {
     "browser": true,
-    "es6": true,
-    "node": true
+    "es2021": true
   },
-  "parser": "babel-eslint",
-  "extends": "eslint:recommended",
+  "extends": "standard",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "ignorePatterns": [
+    "*.min.js",
+    "dist/**/*",
+    "node_modules/**/*"
+  ],
   "rules": {
-    "indent": ["error", 2],
-    "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    "semi": [
+      "error",
+      "always"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ]
   }
 }

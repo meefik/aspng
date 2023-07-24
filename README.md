@@ -26,13 +26,17 @@ asPNG.extract(img).then(blob => {
 });
 ```
 
-## Run demo
+## Build and run
 
-Run the dev server:
+Build the library bundle `./dist/aspng.min.js`:
 
 ```
 npm install
-npm start
+npm run build
 ```
 
-And open the link in your browser http://localhost:3000
+Start the demo webserver:
+
+```
+npm run dev
+```

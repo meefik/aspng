@@ -1,23 +1,27 @@
 {
-  "name": "asPNG",
+  "name": "@meefik/aspng",
   "version": "1.2.0",
   "description": "A JS library for encoding data as PNG with compression or injecting data into an existing PNG image.",
   "author": "Anton Skshidlevsky <meefik@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meefik/aspng.git"
+  },
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
-    "start": "webpack-dev-server --port=3000 --host=localhost",
-    "lint": "eslint src/**/*.js --fix",
-    "build": "webpack --mode=production --progress"
+    "build": "rollup -c",
+    "dev": "web-dev-server --open"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.6",
-    "eslint": "^6.8.0",
-    "terser-webpack-plugin": "^1.4.3",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.10.1"
+    "@rollup/plugin-terser": "^0.4.3",
+    "@web/dev-server": "^0.3.0",
+    "eslint": "^8.45.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "rollup": "^3.26.3"
   }
 }
