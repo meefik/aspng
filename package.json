@@ -1,6 +1,6 @@
 {
-  "name": "@meefik/aspng",
-  "version": "1.2.0",
+  "name": "aspng",
+  "version": "1.3.0",
   "description": "A JS library for encoding data as PNG with compression or injecting data into an existing PNG image.",
   "author": "Anton Skshidlevsky <meefik@gmail.com>",
   "license": "MIT",
@@ -8,20 +8,29 @@
     "type": "git",
     "url": "https://github.com/meefik/aspng.git"
   },
+  "keywords": [
+    "png",
+    "encode",
+    "decode",
+    "steganography",
+    "deflate"
+  ],
   "main": "src/index.js",
+  "types": "types/index.d.ts",
+  "module": "dist/aspng.esm.js",
+  "unpkg": "dist/aspng.umd.js",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
-    "dev": "web-dev-server --open"
+    "dev": "web-dev-server --open /demo/"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.3",
-    "@web/dev-server": "^0.3.0",
-    "eslint": "^8.45.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^16.0.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "rollup": "^3.26.3"
+    "@eslint/js": "^9.35.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@stylistic/eslint-plugin": "^5.3.1",
+    "@web/dev-server": "^0.4.6",
+    "eslint": "^9.35.0",
+    "globals": "^16.3.0",
+    "rollup": "^4.50.1"
   }
 }

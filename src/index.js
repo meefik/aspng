@@ -1,16 +1,21 @@
-import { dataToImage, imageToData, injectData, extractData } from './utils';
+import {
+  dataToImage,
+  imageToData,
+  injectData,
+  extractData,
+} from './utils.js';
 
 /**
- * Encode data as PNG (4 GiB maximum).
+ * Encodes data as a PNG image (4 GiB maximum).
  *
- * @param {Blob|Uint8Array} data
- * @return {Blob}
+ * @param {Blob|Uint8Array} data - The data to encode, either as a Blob or Uint8Array.
+ * @returns {Promise<Blob>} A promise that resolves to a Blob containing the PNG image.
  */
 export function encode(data) {
   if (data && typeof data.arrayBuffer === 'function') {
     return data.arrayBuffer().then(arr => encode(new Uint8Array(arr)));
   }
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const size = Math.ceil(Math.sqrt(data.length / 3 + 1));
@@ -24,16 +29,16 @@ export function encode(data) {
 }
 
 /**
- * Decode data from PNG.
+ * Decodes data from a PNG image.
  *
- * @param {Blob} blob
- * @param {string} [type='application/octet-binary']
- * @return {Blob}
+ * @param {Blob} blob - The PNG image blob to decode.
+ * @param {string} [type='application/octet-binary'] - Optional MIME type for the resulting Blob.
+ * @returns {Promise<Blob>} A promise that resolves to a Blob containing the decoded data.
  */
 export function decode(blob, type = 'application/octet-binary') {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = function() {
+    img.onload = function () {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       const w = (canvas.width = img.width);
@@ -50,11 +55,11 @@ export function decode(blob, type = 'application/octet-binary') {
 }
 
 /**
- * Inject data to PNG image.
+ * Injects the provided data into the given image blob.
  *
- * @param {Blob|Uint8Array} data
- * @param {Blob} img
- * @return {Blob}
+ * @param {Blob|Uint8Array} data - The data to inject, either as a Blob or Uint8Array.
+ * @param {Blob} img - The image blob into which the data will be injected.
+ * @returns {Promise<Blob>} A promise that resolves to a new Blob containing the image with the injected data.
  */
 export function inject(data, img) {
   if (data && typeof data.arrayBuffer === 'function') {
@@ -63,7 +68,7 @@ export function inject(data, img) {
   if (img && typeof img.arrayBuffer === 'function') {
     return new Promise((resolve, reject) => {
       const image = new Image();
-      image.onload = function() {
+      image.onload = function () {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         const w = (canvas.width = image.width);
@@ -77,7 +82,7 @@ export function inject(data, img) {
       image.src = URL.createObjectURL(img);
     }).then(image => inject(data, image));
   }
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = img.width;
@@ -89,16 +94,16 @@ export function inject(data, img) {
 }
 
 /**
- * Extract data from PNG image.
+ * Extracts data from a PNG image.
  *
- * @param {Blob} blob
- * @param {string} [type='application/octet-binary']
- * @return {Blob}
+ * @param {Blob} blob - The PNG image blob to extract data from.
+ * @param {string} [type='application/octet-binary'] - Optional MIME type for the resulting Blob.
+ * @returns {Promise<Blob>} A promise that resolves to a Blob containing the extracted data.
  */
 export function extract(blob, type = 'application/octet-binary') {
   return new Promise((resolve, reject) => {
     const image = new Image();
-    image.onload = function() {
+    image.onload = function () {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       const w = (canvas.width = image.width);
@@ -113,5 +118,3 @@ export function extract(blob, type = 'application/octet-binary') {
     image.src = URL.createObjectURL(blob);
   });
 }
-
-export default { encode, decode, inject, extract };

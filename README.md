@@ -1,9 +1,8 @@
 # asPNG
 
-A JS library for encoding data as PNG with compression or injecting data into
-an existing PNG image.
+A JS library for encoding data as PNG with compression or injecting data into an existing PNG image.
 
-### How to use
+## How to use
 
 An example of using the basic functions of the library:
 
@@ -28,7 +27,7 @@ asPNG.extract(img).then(blob => {
 
 ## Build and run
 
-Build the library bundle `./dist/aspng.min.js`:
+Build the library bundle in the directory `./dist/`:
 
 ```
 npm install

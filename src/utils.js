@@ -18,9 +18,9 @@ export function imageToData(img = []) {
     size += img[i] * Math.pow(256, i);
   }
   const data = new Uint8Array(size);
-  root: for (let i = 4, j = 0, l = img.length; j < l; i += 4, j += 3) {
-    for (let k = 0; k < 3; k++) {
-      if (j + k >= size) break root;
+  const l = img.length;
+  for (let i = 4, j = 0; i < l && j < size; i += 4, j += 3) {
+    for (let k = 0; k < 3 && (j + k) < size; k++) {
       data[j + k] = img[i + k];
     }
   }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<head>
+  <title>asPNG Demo</title>
+</head>
+
+<body>
+  <section>
+    <h2>Log</h2>
+    <pre id="log">...</pre>
+  </section>
+
+  <hr />
+
+  <section>
+    <h2>Encode</h2>
+    <label>Data</label>
+    <br />
+    <input id="encode_data" type="file" onchange="encode(event)" />
+    <br />
+    <label>Preview</label>
+    <br />
+    <img id="encoded_out" alt="Image" />
+  </section>
+
+  <section>
+    <h2>Decode</h2>
+    <label>Image</label>
+    <br />
+    <input id="decode" type="file" onchange="decode(event)" />
+  </section>
+
+  <hr />
+
+  <section>
+    <h2>Inject</h2>
+    <label>Data</label>
+    <br />
+    <input id="inject_data" type="file" />
+    <br />
+    <label>Image</label>
+    <br />
+    <input id="inject_img" type="file" onchange="inject(event)" />
+    <br />
+    <label>Preview</label>
+    <br />
+    <img id="injected_out" alt="Image" />
+  </section>
+
+  <section>
+    <h2>Extract</h2>
+    <label>Image</label>
+    <br />
+    <input id="extract" type="file" onchange="extract(event)" />
+  </section>
+
+  <script src="main.js" type="module"></script>
+</body>
+
+</html>
