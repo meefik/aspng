@@ -15,22 +15,20 @@
     "steganography",
     "deflate"
   ],
+  "type": "module",
   "main": "src/index.js",
   "types": "types/index.d.ts",
   "module": "dist/aspng.esm.js",
   "unpkg": "dist/aspng.umd.js",
-  "type": "module",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup -c",
-    "dev": "web-dev-server --open /demo/"
+    "dev": "npx @web/dev-server --watch --open /demo/"
   },
   "devDependencies": {
-    "@eslint/js": "^9.35.0",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@stylistic/eslint-plugin": "^5.3.1",
-    "@web/dev-server": "^0.4.6",
-    "eslint": "^9.35.0",
-    "globals": "^16.3.0",
-    "rollup": "^4.50.1"
+    "@rollup/plugin-terser": "^1.0.0",
+    "rollup": "^4.62.0"
   }
 }

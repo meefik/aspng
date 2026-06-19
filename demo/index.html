@@ -16,7 +16,7 @@
     <h2>Encode</h2>
     <label>Data</label>
     <br />
-    <input id="encode_data" type="file" onchange="encode(event)" />
+    <input id="encode_data" type="file" onchange="asPNG.encode(event)" />
     <br />
     <label>Preview</label>
     <br />
@@ -27,7 +27,7 @@
     <h2>Decode</h2>
     <label>Image</label>
     <br />
-    <input id="decode" type="file" onchange="decode(event)" />
+    <input id="decode" type="file" onchange="asPNG.decode(event)" />
   </section>
 
   <hr />
@@ -40,7 +40,7 @@
     <br />
     <label>Image</label>
     <br />
-    <input id="inject_img" type="file" onchange="inject(event)" />
+    <input id="inject_img" type="file" onchange="asPNG.inject(event)" />
     <br />
     <label>Preview</label>
     <br />
@@ -51,7 +51,7 @@
     <h2>Extract</h2>
     <label>Image</label>
     <br />
-    <input id="extract" type="file" onchange="extract(event)" />
+    <input id="extract" type="file" onchange="asPNG.extract(event)" />
   </section>
 
   <script src="main.js" type="module"></script>
