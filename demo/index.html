@@ -1,7 +1,26 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>asPNG Demo</title>
+  <style>
+    body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    img,
+    pre {
+      max-width: 100%;
+    }
+
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,6 +47,8 @@
     <label>Image</label>
     <br />
     <input id="decode" type="file" onchange="asPNG.decode(event)" />
+    <br />
+    <a id="decoded_out" hidden>Download decoded data</a>
   </section>
 
   <hr />
@@ -52,6 +73,8 @@
     <label>Image</label>
     <br />
     <input id="extract" type="file" onchange="asPNG.extract(event)" />
+    <br />
+    <a id="extracted_out" hidden>Download extracted data</a>
   </section>
 
   <script src="main.js" type="module"></script>
