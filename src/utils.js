@@ -1,6 +1,11 @@
 /**
+ * The maximum data length that fits into the 3-byte length header (16 MiB - 1).
+ */
+export const MAX_DATA_LENGTH = Math.pow(256, 3) - 1;
+
+/**
  * Encodes raw data bytes into an image pixel buffer.
- * The first pixel stores the data length as a 3-byte big-endian integer,
+ * The first pixel stores the data length as a 3-byte little-endian integer,
  * and subsequent pixels encode groups of 3 bytes per pixel (RGB).
  *
  * @param {Uint8Array} [data] The raw data to encode.
@@ -8,7 +13,13 @@
  * @returns {Uint8Array} The filled pixel buffer.
  */
 export function dataToImage(data = [], img = []) {
-  for (let i = 0, size = data.length; i < 3; i++) {
+  const size = data.length;
+  if (size > MAX_DATA_LENGTH) {
+    throw new RangeError(
+      `Data is too large: ${size} bytes (maximum ${MAX_DATA_LENGTH} bytes)`,
+    );
+  }
+  for (let i = 0; i < 3; i++) {
     img[i] = ((size / Math.pow(256, i)) % 256) | 0;
   }
   img[3] = 255;
@@ -45,8 +56,11 @@ export function imageToData(img = []) {
 }
 
 /**
- * Hides data inside an image using LSB-based steganography.
- * Each pixel stores up to `log(basis, max_value)` bits per color channel.
+ * Hides data inside an image by encoding each byte as three base-`basis`
+ * digits, one per color channel (RGB) of a pixel. The bytes are spread
+ * evenly across the image, and the remaining pixels are filled with a marker
+ * value that is skipped on extraction. Pixels that are not fully opaque are
+ * left untouched, because the canvas does not preserve their color values.
  *
  * @param {Uint8Array} [img] The target pixel buffer (RGBA format).
  * @param {Uint8Array} [data] The data to hide in the image.
@@ -57,13 +71,24 @@ export function injectData(img = [], data = [], basis = 7) {
   const il = img.length / 4;
   const dl = data.length;
   const max = Math.pow(basis, 3) - 1;
-  const step = (il / dl) | 0;
-  for (let i = 0, k = 0; i < il; i++) {
+  let capacity = 0;
+  for (let i = 0; i < il; i++) {
+    if (img[i * 4 + 3] === 255) capacity++;
+  }
+  if (dl > capacity) {
+    throw new RangeError(
+      `Data is too large: ${dl} bytes (image can hold ${capacity} bytes)`,
+    );
+  }
+  const step = dl > 0 ? (capacity / dl) | 0 : 1;
+  for (let i = 0, o = 0, k = 0; i < il; i++) {
     const p = i * 4;
+    if (img[p + 3] !== 255) continue;
     let v = max;
-    if (k < dl && i % step === 0) {
+    if (k < dl && o % step === 0) {
       v = data[k++] || 0;
     }
+    o++;
     for (let j = 0; j < 3; j++) {
       const x = img[p + j];
       let r = ((x / basis) | 0) * basis;
@@ -82,12 +107,13 @@ export function injectData(img = [], data = [], basis = 7) {
  * @param {number} [basis=7] The base used during encoding.
  * @returns {Uint8Array} The extracted hidden data.
  */
-export function extractData(img, basis = 7) {
+export function extractData(img = [], basis = 7) {
   const il = img.length / 4;
   const data = [];
   const max = Math.pow(basis, 3) - 1;
   for (let i = 0, k = 0; i < il; i++) {
     const p = i * 4;
+    if (img[p + 3] !== 255) continue;
     let v = 0;
     for (let j = 0; j < 3; j++) {
       const x = img[p + j];

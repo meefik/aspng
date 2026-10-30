@@ -20,6 +20,11 @@ const injected = await asPNG.inject(data, img);
 const extracted = await asPNG.extract(injected);
 ```
 
+## Limits
+
+- `encode` accepts up to 16 MiB of data.
+- `inject` stores one byte per fully opaque pixel; transparent pixels are left unchanged. Data that does not fit the image is rejected with a `RangeError`.
+
 ## Build and run
 
 Build the library bundle in the directory `./dist/`:
