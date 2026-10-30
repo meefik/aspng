@@ -1,8 +1,8 @@
 {
   "name": "aspng",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A JS library for encoding data as PNG with compression or injecting data into an existing PNG image.",
-  "author": "Anton Skshidlevsky <meefik@gmail.com>",
+  "author": "Anton Skshidlevsky <anton@meefik.dev>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,19 +16,29 @@
     "deflate"
   ],
   "type": "module",
-  "main": "src/index.js",
+  "main": "dist/aspng.esm.js",
   "types": "types/index.d.ts",
   "module": "dist/aspng.esm.js",
   "unpkg": "dist/aspng.umd.js",
+  "jsdelivr": "dist/aspng.umd.js",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/aspng.esm.js",
+      "default": "./dist/aspng.esm.js"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "scripts": {
     "build": "rollup -c",
+    "prepack": "npm run build",
     "dev": "npx @web/dev-server --watch --open /demo/"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^1.0.0",
-    "rollup": "^4.62.0"
+    "@rollup/plugin-terser": "^1.0.2",
+    "rollup": "^4.66.0"
   }
 }
